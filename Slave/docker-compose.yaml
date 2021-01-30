@@ -1,0 +1,20 @@
+version: "2"
+services:
+  slave:
+    image: jenkins:2.60.3
+    container_name: jenkins-node-1
+    ports:
+    - "8081:8080"
+    - "50001:50000"
+    - "2375:2375"
+    environment:
+    - JAVA_OPTS=-Xmx2048m
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /opt/stack/jenkins-node-1/war:/usr/share/jenkins
+    - /opt/stack/jenkins-node-1/jenkins-data:/var/jenkins_home
+    restart: always
+    entrypoint: ["/usr/share/jenkins/slave.sh","bf588347350dc0a9d6bdf9fa8bdca0c8acef3ee75854794b61f8326bb9b00224"]
+networks:
+   jenkin_default:
+      external: true
